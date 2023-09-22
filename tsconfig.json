@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "build",
+    "module": "ESNext",
+    "target": "ESNext",
+    "lib": ["ESNext"],
+    "moduleResolution": "node",
+    "strict": true,
+    "strictNullChecks": true,
+    "esModuleInterop": true,
+    "declaration": false,
+    "sourceMap": false,
+    "skipLibCheck": true,
+    "incremental": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "types/*.d.ts",
+      "src/**/*.d.ts"
+    ],
+    "paths": {
+      "@src/*": ["src/*"],
+      "@core/*": ["src/core/*"],
+      "@resources/*": ["src/resources/*"],
+      "@decorators": ["src/core/decorators/index.ts"],
+      "@controllers": ["src/core/controllers/index.ts"],
+    }
+  },
+  "include": [
+    "types/*.d.ts",
+    "src/**/*",
+    "tests/**/*"
+  ]
+}

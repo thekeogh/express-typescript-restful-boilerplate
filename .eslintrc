@@ -1,0 +1,73 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "import"],
+  "rules": {
+    /**
+    * Explicitly define the `max-len` rule, even though it's configured in the `.prettierrc`.
+    *
+    * @remarks
+    * While we specify `printWidth` in the `.prettierrc`, we also include it here. This redundancy is necessary because
+    * Prettier does not enforce this rule on comments, but ESLint does. It's crucial to set the code value in ESLint's
+    * configuration to be higher than Prettier's `printWidth`. Prettier's `printWidth` serves as a guideline for line
+    * length, rather than a strict limit on line length.
+    */
+    "max-len": ["error", {
+      "code": 9999,
+      "comments": 120
+    }],
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", {
+      "argsIgnorePattern": "next"
+    }],
+    "import/extensions": ["error", "always"],
+    "import/order": ["error", {
+      "pathGroups": [
+        {
+          "pattern": "@src/**",
+          "group": "unknown",
+          "position": "before"
+        },
+        {
+          "pattern": "@core/**",
+          "group": "unknown",
+          "position": "before"
+        },
+        // ------
+        {
+          "pattern": "@decorators",
+          "group": "unknown"
+        },
+        {
+          "pattern": "@controllers",
+          "group": "unknown"
+        },
+        // ------
+        {
+          "pattern": "@resources/**",
+          "group": "unknown",
+          "position": "after"
+        }
+      ],
+      "pathGroupsExcludedImportTypes": ["builtin"],
+      "groups": [
+        "builtin",
+        "external",
+        "unknown",
+        "internal",
+        ["sibling", "parent"],
+        "index",
+        "object",
+        "type"
+      ],
+      "newlines-between": "always",
+      "alphabetize": {
+        "order": "asc"
+      }
+    }]
+  }
+}
