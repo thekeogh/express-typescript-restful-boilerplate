@@ -2,7 +2,7 @@ import { validate } from "class-validator";
 import { NextFunction, Request, Response } from "express";
 import handler from "express-async-handler";
 
-import { errors, utils } from "@core/index.js";
+import { exception, utils } from "@core/index.js";
 
 /**
  * Validate request data.
@@ -58,7 +58,7 @@ export function validator(Schema: GenericClass) {
      */
     const constraints = validated[0].constraints;
     if (!constraints || !Object.values(constraints) || !Object.values(constraints).length) {
-      return next(errors.BadRequest("Looks like something is missing. Please try again."));
+      return next(exception.BadRequest("Looks like something is missing. Please try again."));
     }
 
     /**
@@ -76,6 +76,6 @@ export function validator(Schema: GenericClass) {
      * To enhance readability, we capitalise the first word of the message. class-validator typically starts error
      * messages with property names, which are in lowercase.
      */
-    return next(errors.BadRequest(utils.string.capitaliseFirst(message)));
+    return next(exception.BadRequest(utils.string.capitaliseFirst(message)));
   });
 }

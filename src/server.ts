@@ -9,7 +9,7 @@ import lusca from "lusca";
 
 import { router } from "@src/router.js";
 
-import { config, errors, utils } from "@core/index.js";
+import { config, exception, utils } from "@core/index.js";
 
 import { log } from "@logger";
 
@@ -138,7 +138,7 @@ api.use(router);
  * In such instances, a 404 File Not Found error is generated and returned.
  */
 api.use((req, res, next) => {
-  return next(errors.NotFound(`Cannot find ${req.originalUrl}`));
+  return next(exception.NotFound(`Cannot find ${req.originalUrl}`));
 });
 
 /**
@@ -150,14 +150,14 @@ api.use((req, res, next) => {
  * middleware is to capture and handle errors, ensuring that known errors (errors.Exception) are prepared as responses
  * for the subsequent middleware in the pipeline.
  */
-api.use((error: errors.HttpError | Error, req: Request, res: Response, next: NextFunction) => {
-  if (error instanceof errors.HttpError) {
+api.use((error: exception.HttpError | Error, req: Request, res: Response, next: NextFunction) => {
+  if (error instanceof exception.HttpError) {
     return next(error);
   }
   const customError = error as { status?: number; statusCode?: number; code?: number };
   const status = customError.status || customError.statusCode || customError.code || 500;
   const message = error.message || "Oops! Something went wrong.";
-  return next(errors(status, message));
+  return next(exception(status, message));
 });
 
 /**
@@ -168,7 +168,7 @@ api.use((error: errors.HttpError | Error, req: Request, res: Response, next: Nex
  * the error is an instance of 'HttpError'. Error logging occurs only if the HTTP status code is not found in the
  * ignored list.
  */
-api.use((error: errors.HttpError, req: Request, res: Response, next: NextFunction) => {
+api.use((error: exception.HttpError, req: Request, res: Response, next: NextFunction) => {
   if (!config.api.logging.api.ignore.codes.includes(error.status)) {
     // Log to Sentry
     if (useSentry) {
