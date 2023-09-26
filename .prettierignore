@@ -1,0 +1,17 @@
+# Artifacts
+package-lock.json
+
+# Build
+build/
+.github/
+
+# Testing
+coverage/
+
+# Config
+tsconfig.*
+.eslintrc
+
+# Misc
+*.md
+.vscode/*
